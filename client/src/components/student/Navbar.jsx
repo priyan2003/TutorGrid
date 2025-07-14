@@ -19,13 +19,16 @@ function Navbar() {
            </div>
            { user? <UserButton/> : <button onClick={()=>openSignIn()} className='bg-blue-600 text-white px-5 py-2 rounded-full'>Create Account</button>}
         </div>
-
+         {/* For Phone Screen */}
         <div className='md:hidden flex items-center gap-2 sm:gap-5 text-gray-500'>
-           <div>
-              <button>Become Educator</button>
-              <Link to='/my-enrollments'>My Enrollments</Link>
-              <button><img src={assets.assets.user_icon} alt="" /></button>
+           <div className='flex items-center gap-1 sm:gap-2 max-sm:text-xs'>
+              {user && <>
+                <button>Become Educator</button>
+              <Link to='/my-enrollments'>My Enrollments</Link></>
+              }
            </div>
+              { user ? <UserButton /> :
+                <button onClick={()=>openSignIn()}><img src={assets.assets.user_icon} alt="" /></button>}
         </div>
     </div>
   )
