@@ -5,7 +5,7 @@ function Hero() {
   return (
     <div
       className="flex flex-col items-center justify-center w-full md:pt-36 pt-20
-      px-7 md:px-0 text-center bg-gradient-to-b from-gray-100/70 gap-3"
+      px-7 md:px-0 text-center bg-gradient-to-b from-gray-100/95 gap-3"
     >
       <h4 className="text-2xl md:text-6xl font-bold text-[#1E1E1E] max-w-3xl mx-auto">
         Welcome to TutorGrid.

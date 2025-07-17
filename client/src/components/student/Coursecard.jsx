@@ -1,24 +1,23 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../../context/AppContext';
 import { Link } from 'react-router-dom';
+import { assets } from '../../assets/assets';
 
 const Coursecard = ({course}) => {
 
-  const { currency } = useContext(AppContext);
+  const { currency, averageRating } = useContext(AppContext);
 
   return (
-    <Link to={`/course/${course.courseId}`} className="flex flex-col items-start space-y-3 p-4 border rounded-lg hover:shadow-lg transition-shadow duration-200" onClick={() => scrollTo(0, 0)}>
+    <Link to={`/course/${course.courseId}`} className="flex flex-col items-start space-y-3 p-4 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow duration-200" onClick={() => scrollTo(0, 0)}>
         <img className='w-full' src={course.courseThumbnail} alt="" />
         <div className='p-3 text-left'>
           <h3 className='text-base font-semibold'>{course.courseTitle}</h3>
           <p className='text-gray-500'>{course.educator.name}</p>
           <div className='flex items-center space-x-2'>
-            <p>4.3</p>
+            <p>{averageRating(course)}</p>
             <div className='flex'>
               {
-                Array.from({ length: 5 }, (_, index) => (
-                  <span key={index} className={`text-yellow-500 ${index < 4 ? 'text-yellow-500' : 'text-gray-300'}`}>★</span>
-                ))
+                [...Array(5)].map((_, index) => (<img key={index} className='w-4 h-4' src={index<Math.floor(averageRating(course)) ? assets.star : assets.star_blank} alt="star" />))
               }
             </div>
             <p className='text-gray-500'>20</p>
