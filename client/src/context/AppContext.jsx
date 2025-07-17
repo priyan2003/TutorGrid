@@ -9,6 +9,7 @@ export const AppContextProvider = (props) => {
     const currency = import.meta.env.VITE_CURRENCY || '₹';
 
     const [allcourses, setAllCourses] = useState([]);
+    const [isEducator, setIsEducator] = useState(true);
     const averageRating = (course) => {
         if(course.courseRatings.length == 0) return 0;
         let totalRating  = 0;
@@ -26,7 +27,7 @@ export const AppContextProvider = (props) => {
     }, []);
 
     const value={
-        currency,allcourses,averageRating
+        currency,allcourses,averageRating, setAllCourses, isEducator, setIsEducator
     }
     return (
         <AppContext.Provider value={value}>
