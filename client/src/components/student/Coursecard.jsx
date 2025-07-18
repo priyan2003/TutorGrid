@@ -8,7 +8,7 @@ const Coursecard = ({course}) => {
   const { currency, averageRating } = useContext(AppContext);
 
   return (
-    <Link to={`/course/${course.courseId}`} className="flex flex-col items-start space-y-3 p-4 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow duration-200" onClick={() => scrollTo(0, 0)}>
+    <Link to={`/course/${course._id}`} className="flex flex-col items-start space-y-3 p-4 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow duration-200" onClick={() => scrollTo(0, 0)}>
         <img className='w-full' src={course.courseThumbnail} alt="" />
         <div className='p-3 text-left'>
           <h3 className='text-base font-semibold'>{course.courseTitle}</h3>
