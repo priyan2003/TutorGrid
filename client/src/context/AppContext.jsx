@@ -32,7 +32,7 @@ export const AppContextProvider = (props) => {
         )
         return humanizeDuration(time * 60 * 1000, { units: ['h', 'm'] });
     }
-    // function to calculate total course timing
+    // function to calculate total course duration
     const calculateTotalCourseTiming = (course) => {
         let time = 0;
         course.courseChapters.map((chapter) => 
@@ -40,12 +40,19 @@ export const AppContextProvider = (props) => {
         )
         return humanizeDuration(time * 60 * 1000, { units: ['h', 'm'] });
     }
+    // function to calculate total no of leture in a course
+    const calculateTotalLectures = (course) => {
+        let totalChapters = 0;
+        course.courseContent.map((chapter)=>
+            totalChapters += chapter.chapterContent.length)
+        return totalChapters;
+    }
     useEffect(() => {
         fetchAllCourses();
     }, []);
 
     const value={
-        currency,allcourses,averageRating, setAllCourses, isEducator, setIsEducator
+        currency,allcourses,averageRating, setAllCourses, isEducator, setIsEducator,calculateChapterTiming,calculateTotalCourseTiming, calculateTotalLectures
     }
     return (
         <AppContext.Provider value={value}>
