@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { dummyCourses } from "../assets/assets";
+import humanizeDuration from "humanize-duration";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AppContext = createContext();
@@ -21,6 +22,23 @@ export const AppContextProvider = (props) => {
 
     const fetchAllCourses = async () => {
         setAllCourses(dummyCourses)
+    }
+
+    // function to calculate timing of chapter
+    const calculateChapterTiming = (chapter) => {
+        let time  = 0;
+        chapter.chapterContent.map((lecture) => 
+            time += lecture.lectureDuration 
+        )
+        return humanizeDuration(time * 60 * 1000, { units: ['h', 'm'] });
+    }
+    // function to calculate total course timing
+    const calculateTotalCourseTiming = (course) => {
+        let time = 0;
+        course.courseChapters.map((chapter) => 
+            time += calculateChapterTiming(chapter)
+        )
+        return humanizeDuration(time * 60 * 1000, { units: ['h', 'm'] });
     }
     useEffect(() => {
         fetchAllCourses();
