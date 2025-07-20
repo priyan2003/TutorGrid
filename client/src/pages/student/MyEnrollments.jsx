@@ -1,8 +1,21 @@
 import React, {useContext } from 'react'
 import { AppContext } from '../../context/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 const MyEnrollments = () => {
   const {enrolledCourses,calculateTotalCourseTiming} = useContext(AppContext);
+  const navigate = useNavigate();
+  const [progressArray, setProgressArray] = React.useState([
+    {lectureCompleted: 2,totalLectures: 10},
+    {lectureCompleted: 3,totalLectures: 13},
+    {lectureCompleted: 6,totalLectures: 14},
+    {lectureCompleted: 15,totalLectures: 15},
+    {lectureCompleted: 7,totalLectures: 16},
+    {lectureCompleted: 8,totalLectures: 17},
+    {lectureCompleted: 5,totalLectures: 18},
+    {lectureCompleted: 9,totalLectures: 19},
+    {lectureCompleted: 12,totalLectures: 20}
+  ]);
   return (
     <>
     <div className='md:px-36 px-8 md:pt-30 pt-20 text-left'>
@@ -25,8 +38,8 @@ const MyEnrollments = () => {
                  </div>
                 </td>
                 <td className='px-4 py-3 max-sm:hidden'>{calculateTotalCourseTiming(course)}</td>
-                <td className='px-4 py-3 max-sm:hidden'>3/10 <span>Lectures</span></td>
-                <td className='px-4 py-3 max-sm:text-right'><button className='px-3 sm:px-5 py-1.5 sm:py-2 bg-blue-600 max-sm:text-xs text-white'>{course.isCompleted ? 'Completed' : 'In Progress'}</button></td>
+                <td className='px-4 py-3 max-sm:hidden'>{progressArray[index] && `${progressArray[index].lectureCompleted}/${progressArray[index].totalLectures}`}<span> Lectures</span></td>
+                <td className='px-4 py-3 max-sm:text-right'><button  onClick={()=>navigate(`/player/${course._id}`)} className='px-3 sm:px-5 py-1.5 sm:py-2 bg-blue-600 max-sm:text-xs text-white'>{progressArray[index] && progressArray[index].lectureCompleted == progressArray[index].totalLectures ? 'Completed' : 'In Progress'} </button></td>
               </tr>
             ))}
           </tbody>
