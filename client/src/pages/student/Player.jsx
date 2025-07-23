@@ -1,8 +1,10 @@
-import React, { use, useContext, useEffect, useState } from "react";
+import React, {useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
 import { assets } from "../../assets/assets";
 import humanizeDuration from "humanize-duration";
+import YouTube from "react-youtube";
+import Footer from "../../components/student/Footer";
 
 const Player = () => {
   const {courseId} = useParams();
@@ -33,6 +35,20 @@ const Player = () => {
     <>
       <div className="p-4 sm:p-10 flex flex-col-reverse md:grid md:grid-cols-2 gap-10 md:px-36">
         {/* left column */}
+        <div className="md:mt-10">
+          {playerData ? (
+            <div>
+              <YouTube videoId={playerData.lectureUrl.split('/').pop()} opts={{playerVars: {autoplay:1}}} iframeClassName='w-full aspect-video'/>
+              <div className="flex items-center justify-between mt-4">
+                <p>{playerData.chapter}.{playerData.lecture} {playerData.lectureTitle}</p>
+                <button className="text-blue-500">{true ?'Completed':'Mark Completed'}</button>
+              </div>
+            </div>
+          ) : 
+          <img src={courseData? courseData.courseThumbnail:''} alt="" />
+        }
+        </div>
+        {/* right column */}
         <div className="text-gray-800">
           <h2 className="text-xl font-semibold">Course Structure</h2>
           <div className="pt-5">
@@ -84,8 +100,8 @@ const Player = () => {
                           <div className="flex gap-2">
                             {lecture.lectureUrl && 
                               <p onClick={()=>setPlayerData({
-                                ...lecture,chapter:index+1,lecture:lectureIndex +                                                               1
-,                              })}
+                                ...lecture,chapter:index+1,lecture:lectureIndex + 1 
+                            })}
                                 className="text-blue-500 cursor-pointer"
                               >
                                 Watch
@@ -106,10 +122,12 @@ const Player = () => {
               </div>
             ))}
           </div>
+          <div className="flex items-center gap-2 py-3 mt-10">
+            <h1 className="text-xl font-bold">Rate this Course</h1>
+          </div>
         </div>
-        {/* right column */}
-        <div></div>
       </div>
+      <Footer/>
     </>
   );
 };
