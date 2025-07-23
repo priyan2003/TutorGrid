@@ -1,6 +1,7 @@
 import React, {useContext } from 'react'
 import { AppContext } from '../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import {Line} from 'rc-progress'
 
 const MyEnrollments = () => {
   const {enrolledCourses,calculateTotalCourseTiming} = useContext(AppContext);
@@ -35,6 +36,7 @@ const MyEnrollments = () => {
                 <td className='md:px-4 pl-2 md:pl-4 py-3 flex items-center space-x-3'><img src={course.courseThumbnail} alt="" className='w-14 md:w-28 sm:24'/>
                  <div className='flex-1'>
                   <p className='mb-1 max-sm:text-sm'>{course.courseTitle}</p>
+                  <Line strokeWidth={2} percent={30}></Line>
                  </div>
                 </td>
                 <td className='px-4 py-3 max-sm:hidden'>{calculateTotalCourseTiming(course)}</td>
