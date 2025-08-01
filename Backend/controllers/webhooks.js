@@ -1,3 +1,5 @@
+import { User } from "../models/User.js";
+
 export const clerkWebhooks = async (req, res) => {
   try {
     const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
@@ -20,6 +22,8 @@ export const clerkWebhooks = async (req, res) => {
           name: `${data.first_name} ${data.last_name}`,
           imageUrl: data.image_url
         });
+        console.log(User);
+        
         res.json({});
         break;
 
@@ -29,6 +33,7 @@ export const clerkWebhooks = async (req, res) => {
           name: `${data.first_name} ${data.last_name}`,
           imageUrl: data.image_url
         });
+        
         res.json({});
         break;
 
