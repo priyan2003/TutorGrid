@@ -12,7 +12,8 @@ const PORT = process.env.PORT || 5000;
 // connect to db function
 
 app.get('/', (req, res)=>res.send("API Working"));
-app.post('/clerk',express.json(), clerkWebhooks)
+app.post('/clerk', express.raw({ type: 'application/json' }), clerkWebhooks);
+
 
 app.listen(PORT, ()=>{
     console.log(`Server running at Port ${PORT}`);
