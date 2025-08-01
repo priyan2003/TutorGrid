@@ -29,7 +29,7 @@ export const clerkWebhooks = async (req, res)=>{
         case 'user.updated':{
             const userData = {
             email: data.email_addresses[0].email_address,
-            name: data. first_name + " " + data. last_name,
+            name: data.first_name + " " + data.last_name,
             imageUrl: data.image_url,
             }
             await User.findByIdAndUpdate(data.id,userData);
@@ -37,9 +37,9 @@ export const clerkWebhooks = async (req, res)=>{
             break;
         }
         case 'user.deleted' : {
-        await User.findByIdAndDelete(data.id)
-        res.json({})
-        break;
+            await User.findByIdAndDelete(data.id)
+            res.json({})
+            break;
         }
         default:
             break;
