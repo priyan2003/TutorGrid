@@ -1,13 +1,16 @@
 import { createContext, useEffect, useState } from "react";
 import { dummyCourses } from "../assets/assets";
 import humanizeDuration from "humanize-duration";
-
+import {useAuth, useUser} from '@clerk/clerk-react'
 // eslint-disable-next-line react-refresh/only-export-components
 export const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
 
     const currency = import.meta.env.VITE_CURRENCY || '₹';
+
+    const {getToken} = useAuth();
+    const {user} = useUser();
 
     const [allcourses, setAllCourses] = useState([]);
     const [isEducator, setIsEducator] = useState(true);
@@ -57,10 +60,21 @@ export const AppContextProvider = (props) => {
         // For now, we will use dummy data
         setEnrolledCourses(dummyCourses);
     }
+
     useEffect(() => {
         fetchAllCourses();
         fetchUserEnrolledCourses();
     }, []);
+
+    const logToken = async ()=>{
+        console.log(await getToken());   
+    }
+
+    useEffect(()=>{
+        if(user){
+            logToken();
+        }
+    },[user])
 
     const value={
         currency,allcourses,averageRating, setAllCourses, isEducator, setIsEducator,calculateChapterTiming,calculateTotalCourseTiming, calculateTotalLectures, fetchUserEnrolledCourses,enrolledCourses
