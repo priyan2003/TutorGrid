@@ -11,11 +11,11 @@ const PORT = process.env.PORT || 5000;
 
 // connect to db function
 
+connectDB();
 app.get('/', (req, res)=>res.send("API Working"));
 app.post('/clerk', express.raw({ type: 'application/json' }), clerkWebhooks);
 
 
 app.listen(PORT, ()=>{
     console.log(`Server running at Port ${PORT}`);
-    connectDB()
 })
