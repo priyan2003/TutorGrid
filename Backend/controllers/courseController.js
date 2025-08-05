@@ -1,4 +1,5 @@
 import Course from "../models/Course.js";
+import Purchase from "../models/Purchase.js";
 
 // Get All Published Courses
 export const getAllCourse = async (req, res) => {
@@ -43,4 +44,6 @@ export const getCourseId = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+
 
