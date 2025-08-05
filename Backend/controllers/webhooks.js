@@ -18,7 +18,6 @@ export const clerkWebhooks = async (req, res) => {
 
     const bodyString = Buffer.isBuffer(req.body) ? req.body.toString() : JSON.stringify(req.body);
     const { data, type } = JSON.parse(bodyString);
-
     console.log(`📦 Webhook Type: ${type}`);
 
     switch (type) {
@@ -75,7 +74,7 @@ export const clerkWebhooks = async (req, res) => {
 export const stripeWebhooks = async (request, response) => {
   const sig = request.headers['stripe-signature'];
   let event;
-
+  const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY)
   try {
     // Stripe requires the raw body, make sure you're using express.raw() middleware for this route
     event = Stripe.webhooks.constructEvent(
