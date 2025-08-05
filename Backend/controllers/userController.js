@@ -25,9 +25,6 @@ export const userEnrolledCourses = async (req, res) => {
     const userData = await User.findById(userId)
       .populate({
         path: "enrolledCourses",
-        populate: {
-          path: "lectures", // assumes each course has lectures array with ObjectId refs
-        },
       });
 
     if (!userData) {

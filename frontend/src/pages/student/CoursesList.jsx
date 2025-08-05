@@ -11,7 +11,7 @@ const CoursesList = () => {
   const { allcourses } = useContext(AppContext);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const { input } = useParams();
-
+  
   useEffect(() => {
     if (allcourses && allcourses.length > 0) {
       const filtered = allcourses.slice();
