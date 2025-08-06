@@ -2,6 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import uniqid from "uniqid";
 import Quill from "quill";
 import { assets } from "../../assets/assets";
+import { useContext } from "react";
+import { AppContext } from "../../context/AppContext";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 function AddCourse() {
   const quillRef = useRef(null);
@@ -13,11 +17,12 @@ function AddCourse() {
   const [chapters, setChapters] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [currentChapterId, setCurrentChapterId] = useState(null);
+  const {backendUrl, getToken} = useContext(AppContext);
 
   const [lectureDetails, setLectureDetails] = useState({
     lectureTitle: "",
     lectureDuration: "",
-    lectureURL: "",
+    lectureUrl: "",
     isPreviewFree: false,
   });
 
@@ -33,7 +38,7 @@ function AddCourse() {
           collapsed: false,
           chapterOrder:
             chapters.length > 0
-              ? chapters[chapters.length - 1].chapterOrder + 1
+              ? chapters.slice(-1)[0].chapterOrder + 1
               : 1,
         };
         setChapters([...chapters, newChapter]);
@@ -54,18 +59,17 @@ function AddCourse() {
   };
   
 
-  // 📌 Handle lectures
+  //Handle lectures
   const handleLecture = (action, chapterId, lectureIndex) => {
     if (action === "add") {
+      console.log("Opening popup for chapter:", chapterId);
       setCurrentChapterId(chapterId);
       setShowPopup(true);
     } else if (action === "remove") {
       setChapters(
         chapters.map((chapter) => {
-          if (chapter.chapterId === chapterId) {
-            const updatedContent = [...chapter.chapterContent];
-            updatedContent.splice(lectureIndex, 1); // remove by index
-            return { ...chapter, chapterContent: updatedContent };
+          if(chapter.chapterId === chapterId) {
+            chapter.chapterContent.splice(lectureIndex,1)
           }
           return chapter;
         })
@@ -74,41 +78,90 @@ function AddCourse() {
   };
 
   const addLecture = () => {
-        if (
-          !lectureDetails.lectureTitle ||
-          !lectureDetails.lectureURL
-        ) {
-          alert("Please fill in lecture title and URL");
-          return;
-        }
-
-        setChapters(
-          chapters.map((chapter) => {
-            if (chapter.chapterId === currentChapterId) {
-              return {
-                ...chapter,
-                chapterContent: [
-                  ...chapter.chapterContent,
-                  { ...lectureDetails, lectureId: uniqid() },
-                ],
-              };
-            }
-            return chapter;
-          })
-        );
-
-        // ✅ Reset form & close popup
-        setLectureDetails({
-          lectureTitle: "",
-          lectureDuration: "",
-          lectureURL: "",
-          isPreviewFree: false,
-        });
-        setShowPopup(false);
+  if (!lectureDetails.lectureTitle || !lectureDetails.lectureUrl) {
+    alert("Please fill in lecture title and URL");
+    return;
   }
 
+  setChapters((prevChapters) =>
+    prevChapters.map((chapter) => {
+      if (chapter.chapterId === currentChapterId) {
+        const lastLecture = chapter.chapterContent.slice(-1)[0];
+        const nextOrder = lastLecture ? lastLecture.lectureOrder + 1 : 1;
+
+        const newLecture = {
+          ...lectureDetails,
+          lectureId: uniqid(),
+          lectureOrder: nextOrder,
+        };
+
+        return {
+          ...chapter,
+          chapterContent: [...chapter.chapterContent, newLecture],
+        };
+      }
+      return chapter;
+    })
+  );
+
+  // ✅ Reset form & close popup
+  setLectureDetails({
+    lectureTitle: "",
+    lectureDuration: "",
+    lectureUrl: "", // ✅ fixed here
+    isPreviewFree: false,
+  });
+  setShowPopup(false);
+};
+
+
+
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    try {
+      e.preventDefault();
+      if(!image){
+        toast.error('Thumbnail is required')
+      }
+      const courseData = {
+        courseTitle,
+        courseDescription: quillRef.current.root.innerHTML,
+        coursePrice: Number(coursePrice),
+        discount: Number(discount),
+        courseContent: chapters,
+      };
+
+      const formData = new FormData();
+      formData.append('courseData', JSON.stringify(courseData));
+      formData.append('image', image);
+
+      const token = await getToken();
+
+      const { data } = await axios.post(
+        backendUrl + '/api/educator/add-course',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      console.log(data);
+      
+      if(data.success){
+        toast.success(data.message);
+        setCourseTitle('');
+        setCoursePrice(0)
+        setDiscount(0)
+        setImage(null)
+        setChapters([])
+        quillRef.current.root.innerHTML = ""
+      }else{
+        toast.error(data.message);
+      }
+
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
 
   //  Initialize Quill editor
@@ -219,7 +272,7 @@ function AddCourse() {
                     onClick={() => handleChapter("toggle", chapter.chapterId)}
                   />
                   <span className="font-semibold">
-                    {chapterIndex + 1}. {chapter.chapterTitle}
+                    {chapterIndex + 1} {chapter.chapterTitle}
                   </span>
                 </div>
                 <span className="text-gray-500">
@@ -241,16 +294,16 @@ function AddCourse() {
                       className="flex items-center justify-between mb-2"
                     >
                       <span>
-                        {lectureIndex + 1}. {lecture.lectureTitle} -{" "}
-                        {lecture.lectureDuration} mins -{" "}
+                        {lectureIndex + 1}. {lecture.lectureTitle} - 
+                        {lecture.lectureDuration} mins 
                         <a
-                          href={lecture.lectureURL}
+                          href={lecture.lectureUrl}
                           target="_blank"
                           rel="noreferrer"
                           className="text-blue-500"
                         >
                           Link
-                        </a>{" "}
+                        </a>
                         - {lecture.isPreviewFree ? "Free Preview" : "Paid"}
                       </span>
                       <img
@@ -330,11 +383,11 @@ function AddCourse() {
                   <input
                     type="text"
                     className="mt-1 block w-full border rounded py-1 px-2"
-                    value={lectureDetails.lectureURL}
+                    value={lectureDetails.lectureUrl}
                     onChange={(e) =>
                       setLectureDetails({
                         ...lectureDetails,
-                        lectureURL: e.target.value,
+                        lectureUrl: e.target.value,
                       })
                     }
                   />

@@ -28,6 +28,7 @@ export const addCourse = async (req, res) => {
     const { userId } = await req.auth();  // userId comes from Clerk middleware
 
     const { courseData } = req.body;
+    
     const imageFile = req.file; //  Assuming you’re using multer for file upload
 
     if (!courseData) {
