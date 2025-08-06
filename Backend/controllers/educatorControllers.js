@@ -2,6 +2,7 @@ import { clerkClient} from '@clerk/express'
 import Course from "../models/Course.js";   // ✅ Adjust path if needed
 import {v2 as cloudinary} from "cloudinary";  // ✅ Adjust path if needed
 import Purchase from '../models/Purchase.js';
+import User from '../models/User.js';
 
 
 // Update role to educator
@@ -89,7 +90,7 @@ export const educatorDashboardData = async (req, res) => {
     const courseIds = courses.map(course => course._id);
 
     // Calculate total earnings from completed purchases
-    const purchases = await Purchase.find({
+    const purchases = await Purchase.find({ 
       courseId: { $in: courseIds },
       status: "completed",
     });
@@ -135,7 +136,7 @@ export const educatorDashboardData = async (req, res) => {
 export const getEnrolledStudentsData = async (req, res) => {
   try {
     const educator = req.auth.userId;
-
+    
     //  Find all courses by educator
     const courses = await Course.find({ educator });
     const courseIds = courses.map(course => course._id);
@@ -147,7 +148,7 @@ export const getEnrolledStudentsData = async (req, res) => {
     })
       .populate('userId', 'name imageUrl')   // get student details
       .populate('courseId', 'courseTitle');  // get course details
-
+ 
     //Map to enrolled students data
     const enrolledStudents = purchases.map(purchase => ({
       student: purchase.userId,
