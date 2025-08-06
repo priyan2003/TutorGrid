@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
-import { assets } from "../../assets/assets";
+import { assets } from "../../assets/assets.js";
 import Loading from "../../components/student/Loading";
 import axios from "axios";
 import { toast } from "react-toastify";

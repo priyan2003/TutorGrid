@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext } from '../../context/AppContext';
 import Loading from '../../components/student/Loading';
-import { assets } from '../../assets/assets';
+import { assets } from '../../assets/assets.js';
 import humanizeDuration from 'humanize-duration';
 import Footer from '../../components/student/Footer';
 import YouTube from 'react-youtube';
@@ -15,7 +15,7 @@ const CourseDetail = () => {
   const [openSection, setOpenSection] = useState({});
   const [isAlreadyEnrolled, setIsAlreadyEnrolled] = useState(true);
   const [playerData, setPlayerData] = useState(null);
-  const {allcourses, averageRating ,calculateChapterTiming, calculateTotalCourseTiming, calculateTotalLectures, currency, backendUrl, userData, getToken} = useContext(AppContext);
+  const {averageRating ,calculateChapterTiming, calculateTotalCourseTiming, calculateTotalLectures, currency, backendUrl, userData, getToken} = useContext(AppContext);
   
   const fetchCourseDetails = async () => {
     try {

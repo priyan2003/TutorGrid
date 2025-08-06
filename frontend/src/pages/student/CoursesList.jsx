@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Searchbar from '../../components/student/Searchbar';
 import { AppContext } from '../../context/AppContext';
 import Coursecard from '../../components/student/Coursecard';
-import { assets } from '../../assets/assets';
+import { assets } from '../../assets/assets.js';
 import Footer from '../../components/student/Footer';
 
 const CoursesList = () => {
