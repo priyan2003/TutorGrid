@@ -31,7 +31,7 @@ const Footer = () => {
           <h3 className="text-gray-800 font-semibold mb-3">Contact</h3>
           <p className="text-sm text-gray-600">📍 IIIT Bhagalpur, Bihar, India</p>
           <p className="text-sm text-gray-600">📧 educator@support.com</p>
-          <p className="text-sm text-gray-600">📞 +91 98765 43210</p>
+          <p className="text-sm text-gray-600">📞 +91 93503 25041</p>
         </div>
 
         {/* Social Links */}
