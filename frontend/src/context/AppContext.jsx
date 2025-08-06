@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { dummyCourses } from "../assets/assets";
 import humanizeDuration from "humanize-duration";
 import {useAuth, useUser} from '@clerk/clerk-react'
 import axios from 'axios'
@@ -100,7 +99,6 @@ export const AppContextProvider = (props) => {
                     Authorization:`Bearer ${token}`
                 }
             })
-            console.log(data);
             
             if(data.success){
                 setEnrolledCourses(data.enrolledCourses.reverse())
