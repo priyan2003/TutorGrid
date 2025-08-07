@@ -6,7 +6,7 @@ TutorGrid is a full-stack web application that connects students and tutors thro
 
 - 🧑‍🎓 **Student and Tutor Dashboards** – Separate panels for students and tutors with relevant data views
 - 🔐 **Secure Authentication** – JWT-based login and protected routes
-- 💳 **Payment Gateway** – Razorpay integration for secure course/session payments
+- 💳 **Payment Gateway** – Stripe integration for secure course/session payments
 - 📚 **Course & Lecture Management** – Tutors can create, update, and manage course content
 - 🌐 **Responsive UI** – Mobile-first, fast, and clean interface built with Tailwind CSS
 - 📈 **Admin Controls** – Role-based access and user management
