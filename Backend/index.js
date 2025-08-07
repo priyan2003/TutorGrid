@@ -19,7 +19,10 @@ const PORT = process.env.PORT || 5000;
 await connectDB();
 await connectCloudinary();
 // middlewares
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://tutor-grid-priyanshu.vercel.app'], // add your deployed domain here
+  credentials: true
+}));
 app.use(clerkMiddleware());
 
 app.get('/', (req, res)=>res.send("API Working"));
