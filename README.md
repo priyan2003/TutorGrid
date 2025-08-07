@@ -128,13 +128,13 @@ Make sure you have the following installed:
 
 2. **Install Backend Dependencies**
    ```bash
-   cd server
+   cd Backend
    npm install
    ```
 
 3. **Install Frontend Dependencies**
    ```bash
-   cd ../clientfrontend
+   cd frontend
    npm install
    ```
 
